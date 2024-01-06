@@ -1,113 +1,111 @@
-public class BaseConverter {
-    public static void main(String[] args) {
-        while (true) {
-            String[] userInput = In.getString().split("\\s+");
+class BaseConverter {
 
-            if (userInput[0].equalsIgnoreCase("exit")) {
-                break;
-            }
-
-            int base1 = stringToBase(userInput[0]);
-            int num1 = stringToBase(userInput[1], base1);
-            char operator = userInput[2].charAt(0);
-            int num2 = stringToBase(userInput[3], stringToBase(userInput[4]));
-            int base2 = stringToBase(userInput[4]);
-            int resultBase = stringToBase(userInput[5]);
-
-            performOperation(base1, num1, operator, num2, base2, resultBase);
-        }
-    }
-
-    private static int stringToBase(String str) {
-        int base = 0;
-        for (char c : str.toCharArray()) {
-            base = base * 10 + (c - '0');
-        }
-        return base;
-    }
-
-    private static int stringToBase(String str, int base) {
-        int num = 0;
-        for (char c : str.toCharArray()) {
-            num = num * base + (c - '0');
-        }
-        return num;
-    }
-
-    private static void performOperation(int base1, int num1, char operator, int num2, int base2, int resultBase) {
-        int decimalNum1 = convertToDecimal(num1, base1);
-        int decimalNum2 = convertToDecimal(num2, base2);
-
+    static int convertToBase10(int num, int base) {
         int result = 0;
-        if (operator == '+') {
-            result = decimalNum1 + decimalNum2;
-        } else if (operator == '-') {
-            result = decimalNum1 - decimalNum2;
-        } else if (operator == '*') {
-            result = decimalNum1 * decimalNum2;
-        } else if (operator == '/') {
-            if (decimalNum2 != 0) {
-                result = decimalNum1 / decimalNum2;
-            } else {
-                System.out.println("Error: Division by zero");
-                return;
-            }
-        } else if (operator == '%') {
-            if (decimalNum2 != 0) {
-                result = decimalNum1 % decimalNum2;
-            } else {
-                System.out.println("Error: Modulo by zero");
-                return;
-            }
-        } else {
-            System.out.println("Error: Invalid operator");
-            return;
-        }
-
-        String resultInBase = convertToBase(result, resultBase);
-
-        System.out.println(num1 + " (base " + base1 + ") " + operator + " " + num2 + " (base " + base2 + ")");
-        System.out.println("= " + convertToBase(decimalNum1, 10) + " " + operator + " " + convertToBase(decimalNum2, 10));
-        System.out.println("= " + result);
-        System.out.println("= " + resultInBase + " (base " + resultBase + ")\n");
-    }
-
-    private static int convertToDecimal(int number, int base) {
-        int decimalNumber = 0;
         int multiplier = 1;
 
-        while (number > 0) {
-            int digit = number % 10;
-            decimalNumber += digit * multiplier;
+        while (num > 0) {
+            int digit = num % 10;
+            result += digit * multiplier;
             multiplier *= base;
-            number /= 10;
+            num /= 10;
         }
 
-        return decimalNumber;
+        return result;
     }
 
-    private static String convertToBase(int number, int base) {
-        if (number == 0) {
-            return "0";
+    static String convertToBase(int num, int base) {
+        String result = "";
+
+        while (num > 0) {
+            int digit = num % base;
+            result = digit + result;
+            num /= base;
         }
 
-        int tempNumber = number;
-        int numDigits = 0;
+        return result.isEmpty() ? "0" : result;
+    }
 
-        while (tempNumber > 0) {
-            tempNumber /= base;
-            numDigits++;
+    static int performOperation(int num1, int num2, char operator) {
+        int result = 0;
+        if (operator == '+') result = num1 + num2;
+        else if (operator == '-') result = num1 - num2;
+        else if (operator == '*') result = num1 * num2;
+        else if (operator == '/') {
+            if (num2 != 0) {
+                result = num1 / num2;
+            } else {
+                System.out.println("Error: Division by zero is not allowed.");
+                return 0;  // Return 0 to indicate an error
+            }
+        } else if (operator == '%') {
+            if (num2 != 0) {
+                result = num1 % num2;
+            } else {
+                System.out.println("Error: Modulo operation with zero is not allowed.");
+                return 0;  // Return 0 to indicate an error
+            }
+        } else {
+            System.out.println("Error: Invalid operator. Use +, -, *, /, or %.");
+            return 0;  // Return 0 to indicate an error
+        }
+        return result;
+    }
+
+    static void displayResult(int num1, int base, char operator, int num2, int resultBase, int result) {
+        System.out.println();
+        System.out.println("Enter the base for both input numbers (2 to 10): ");
+        int baseInput = In.getInt();
+        System.out.println("Enter the first number (base " + baseInput + "): ");
+        int num1Input = In.getInt();
+        System.out.println("Enter the operator (+, -, *, /, %): ");
+        char operatorInput = In.getChar();
+        System.out.println("Enter the second number (base " + baseInput + "): ");
+        int num2Input = In.getInt();
+        System.out.println("Enter the base for the output number (2 to 10): ");
+        int resultBaseInput = In.getInt();
+        System.out.println();
+
+        if (baseInput < 2 || baseInput > 10 || resultBaseInput < 2 || resultBaseInput > 10) {
+            System.out.println("Error: Invalid base. Bases must be between 2 and 10.");
+            return;  // End the program due to invalid base
         }
 
-        char[] result = new char[numDigits];
-        tempNumber = number;
+        int num1Base10 = convertToBase10(num1Input, baseInput);
+        int num2Base10 = convertToBase10(num2Input, baseInput);
+        int resultBase10 = performOperation(num1Base10, num2Base10, operatorInput);
 
-        for (int i = numDigits - 1; i >= 0; i--) {
-            int digit = tempNumber % base;
-            result[i] = (char) (digit + '0');
-            tempNumber /= base;
+        if (resultBase10 != 0) {
+            displayResult(num1Input, baseInput, operatorInput, num2Input, resultBaseInput, resultBase10);
+        }
+    }
+
+    public static void main(String[] args) {
+        int num1, num2, resultBase;
+        char operator;
+
+        System.out.print("Enter the base for both input numbers (2 to 10): ");
+        int base = In.getInt();
+        System.out.print("Enter the first number (base " + base + "): ");
+        num1 = In.getInt();
+        System.out.print("Enter the operator (+, -, *, /, %): ");
+        operator = In.getChar();
+        System.out.print("Enter the second number (base " + base + "): ");
+        num2 = In.getInt();
+        System.out.print("Enter the base for the output number (2 to 10): ");
+        resultBase = In.getInt();
+
+        if (base < 2 || base > 10 || resultBase < 2 || resultBase > 10) {
+            System.out.println("Error: Invalid base. Bases must be between 2 and 10.");
+            return;  // End the program due to invalid base
         }
 
-        return new String(result);
+        int num1Base10 = convertToBase10(num1, base);
+        int num2Base10 = convertToBase10(num2, base);
+        int resultBase10 = performOperation(num1Base10, num2Base10, operator);
+
+        if (resultBase10 != 0) {
+            displayResult(num1, base, operator, num2, resultBase, resultBase10);
+        }
     }
 }
