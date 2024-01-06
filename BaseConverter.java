@@ -52,50 +52,36 @@ class BaseConverter {
         return result;
     }
 
-    static void displayResult(int num1, int base, char operator, int num2, int resultBase, int result) {
+    static void displayResult(int num1, int base, char operator, int num2, int outputBase, int result) {
         System.out.println();
-        System.out.println("Enter the base for both input numbers (2 to 10): ");
-        int baseInput = In.getInt();
-        System.out.println("Enter the first number (base " + baseInput + "): ");
-        int num1Input = In.getInt();
-        System.out.println("Enter the operator (+, -, *, /, %): ");
-        char operatorInput = In.getChar();
-        System.out.println("Enter the second number (base " + baseInput + "): ");
-        int num2Input = In.getInt();
-        System.out.println("Enter the base for the output number (2 to 10): ");
-        int resultBaseInput = In.getInt();
+        System.out.println("Performing calculation...");
         System.out.println();
-
-        if (baseInput < 2 || baseInput > 10 || resultBaseInput < 2 || resultBaseInput > 10) {
-            System.out.println("Error: Invalid base. Bases must be between 2 and 10.");
-            return;  // End the program due to invalid base
-        }
-
-        int num1Base10 = convertToBase10(num1Input, baseInput);
-        int num2Base10 = convertToBase10(num2Input, baseInput);
-        int resultBase10 = performOperation(num1Base10, num2Base10, operatorInput);
-
-        if (resultBase10 != 0) {
-            displayResult(num1Input, baseInput, operatorInput, num2Input, resultBaseInput, resultBase10);
-        }
+        System.out.println("         " + num1 + " (base " + base + ") " + operator + " " + num2 + " (base " + base + ")");
+        System.out.println();
+        System.out.println("         = " + convertToBase10(num1, base) + " " + operator + " " + convertToBase10(num2, base));
+        System.out.println();
+        System.out.println("         = " + result);
+        System.out.println();
+        System.out.println("         = " + convertToBase(result, outputBase) + " (base " + outputBase + ")");
+        System.out.println();
     }
 
     public static void main(String[] args) {
-        int num1, num2, resultBase;
+        int num1, num2, base, outputBase;
         char operator;
 
         System.out.print("Enter the base for both input numbers (2 to 10): ");
-        int base = In.getInt();
+        base = In.getInt();
         System.out.print("Enter the first number (base " + base + "): ");
         num1 = In.getInt();
         System.out.print("Enter the operator (+, -, *, /, %): ");
         operator = In.getChar();
         System.out.print("Enter the second number (base " + base + "): ");
         num2 = In.getInt();
-        System.out.print("Enter the base for the output number (2 to 10): ");
-        resultBase = In.getInt();
+        System.out.print("Enter the desired output base (2 to 10): ");
+        outputBase = In.getInt();
 
-        if (base < 2 || base > 10 || resultBase < 2 || resultBase > 10) {
+        if (base < 2 || base > 10 || outputBase < 2 || outputBase > 10) {
             System.out.println("Error: Invalid base. Bases must be between 2 and 10.");
             return;  // End the program due to invalid base
         }
@@ -105,7 +91,7 @@ class BaseConverter {
         int resultBase10 = performOperation(num1Base10, num2Base10, operator);
 
         if (resultBase10 != 0) {
-            displayResult(num1, base, operator, num2, resultBase, resultBase10);
+            displayResult(num1, base, operator, num2, outputBase, resultBase10);
         }
     }
 }
