@@ -1,5 +1,16 @@
 class BaseConverter {
 
+    static boolean isValidNumber(int num, int base) {
+        while (num > 0) {
+            int digit = num % 10;
+            if (digit >= base) {
+                return false;  // Invalid digit for the given base
+            }
+            num /= 10;
+        }
+        return true;  // All digits are valid
+    }
+
     static int convertToBase10(int num, int base) {
         int result = 0;
         int multiplier = 1;
@@ -74,10 +85,18 @@ class BaseConverter {
         base = In.getInt();
         System.out.print("Enter the first number (base " + base + "): ");
         num1 = In.getInt();
+        if (!isValidNumber(num1, base)) {
+            System.out.println("Error: Invalid number for the given base.");
+            return;  // End the program due to invalid number
+        }
         System.out.print("Enter the operator (+, -, *, /, %): ");
         operator = In.getChar();
         System.out.print("Enter the second number (base " + base + "): ");
         num2 = In.getInt();
+        if (!isValidNumber(num2, base)) {
+            System.out.println("Error: Invalid number for the given base.");
+            return;  // End the program due to invalid number
+        }
         System.out.print("Enter the desired output base (2 to 10): ");
         outputBase = In.getInt();
 
