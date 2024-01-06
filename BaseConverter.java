@@ -46,7 +46,11 @@ class BaseConverter {
         }
 
         // if the result is empty, return "0" to represent the base 10 zero
-        return result.isEmpty() ? "0" : result;
+        if (result.equals("")) {
+            return "0";
+        } else {
+            return result;
+        }
     }
 
     // method to perform the arithmetic operation based on the operator
