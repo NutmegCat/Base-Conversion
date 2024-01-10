@@ -114,35 +114,30 @@ class BaseConverter {
         int num1, num2, base, outputBase;
         char operator;
 
-        // input for the base and numbers
-        System.out.print("enter the base for both input numbers (2 to 10): ");
-        base = In.getInt();
-        System.out.print("enter the first number (base " + base + "): ");
-        num1 = In.getInt();
+        System.out.println("Enter input base (2 to 10), first number, operator, second number, output base (2 to 10), separated by spaces.");
+        String[] inputs = In.getString().split(" ");
+        base = Integer.parseInt(inputs[0]);
+        num1 = Integer.parseInt(inputs[1]);
 
         // validate the first number
         if (!isValidNumber(num1, base)) {
-            System.out.println("error: invalid number for the given base.");
-            return; // end the program due to invalid number
+            System.out.println("Error: Invalid number for the given base.");
+            return; // end the program due ot invalid number
         }
 
-        System.out.print("enter the operator (+, -, *, /, %): ");
-        operator = In.getChar();
-        System.out.print("enter the second number (base " + base + "): ");
-        num2 = In.getInt();
+        operator = inputs[2].charAt(0);
+        num2 = Integer.parseInt(inputs[3]);
 
         // validate the second number
         if (!isValidNumber(num2, base)) {
-            System.out.println("error: invalid number for the given base.");
+            System.out.println("Error: Invalid number for the given base.");
             return; // end the program due to invalid number
         }
 
-        System.out.print("enter the desired output base (2 to 10): ");
-        outputBase = In.getInt();
-
+        outputBase = Integer.parseInt(inputs[4]);
         // validate bases
         if (base < 2 || base > 10 || outputBase < 2 || outputBase > 10) {
-            System.out.println("error: invalid base. bases must be between 2 and 10.");
+            System.out.println("Error: Invalid base, Bases must be between 2 and 10");
             return; // end the program due to invalid base
         }
 
