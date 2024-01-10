@@ -114,7 +114,7 @@ class BaseConverter {
         int num1, num2, base, outputBase;
         char operator;
 
-        System.out.println("Enter input base (2 to 10), first number, operator, second number, output base (2 to 10), seperated by spaces.");
+        System.out.println("Enter input base (2 to 10), first number, operator, second number, output base (2 to 10), separated by spaces.");
         String[] inputs = In.getString().split(" ");
         base = Integer.parseInt(inputs[0]);
         num1 = Integer.parseInt(inputs[1]);
@@ -139,6 +139,16 @@ class BaseConverter {
         if (base < 2 || base > 10 || outputBase < 2 || outputBase > 10) {
             System.out.println("Error: Invalid base, Bases must be between 2 and 10");
             return; // end the program due to invalid base
+        }
+
+        // perform the arithmetic operation
+        int num1Base10 = convertToBase10(num1, base);
+        int num2Base10 = convertToBase10(num2, base);
+        int resultBase10 = performOperation(num1Base10, num2Base10, operator);
+
+        // display the result
+        if (resultBase10 != 0) {
+            displayResult(num1, base, operator, num2, outputBase, resultBase10);
         }
     }
 }
