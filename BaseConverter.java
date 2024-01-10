@@ -111,44 +111,54 @@ class BaseConverter {
 
     // main method to execute the program
     public static void main(String[] args) {
-        int num1, num2, base, outputBase;
-        char operator;
+        while (true) { // loop to keep asking for input
+            int num1, num2, base, outputBase;
+            char operator;
 
-        System.out.println("Enter input base (2 to 10), first number, operator, second number, output base (2 to 10), separated by spaces.");
-        String[] inputs = In.getString().split(" ");
-        base = Integer.parseInt(inputs[0]);
-        num1 = Integer.parseInt(inputs[1]);
+            System.out.println("Enter input base (2 to 10), first number, operator, second number, output base (2 to 10), separated by spaces.");
+            String[] inputs = In.getString().split(" ");
+            base = Integer.parseInt(inputs[0]);
+            num1 = Integer.parseInt(inputs[1]);
 
-        // validate the first number
-        if (!isValidNumber(num1, base)) {
-            System.out.println("Error: Invalid number for the given base.");
-            return; // end the program due ot invalid number
-        }
+            // validate the first number
+            if (!isValidNumber(num1, base)) {
+                System.out.println("Error: Invalid number for the given base.");
+                return; // end the program due ot invalid number
+            }
 
-        operator = inputs[2].charAt(0);
-        num2 = Integer.parseInt(inputs[3]);
+            operator = inputs[2].charAt(0);
+            num2 = Integer.parseInt(inputs[3]);
 
-        // validate the second number
-        if (!isValidNumber(num2, base)) {
-            System.out.println("Error: Invalid number for the given base.");
-            return; // end the program due to invalid number
-        }
+            // validate the second number
+            if (!isValidNumber(num2, base)) {
+                System.out.println("Error: Invalid number for the given base.");
+                return; // end the program due to invalid number
+            }
 
-        outputBase = Integer.parseInt(inputs[4]);
-        // validate bases
-        if (base < 2 || base > 10 || outputBase < 2 || outputBase > 10) {
-            System.out.println("Error: Invalid base, Bases must be between 2 and 10");
-            return; // end the program due to invalid base
-        }
+            outputBase = Integer.parseInt(inputs[4]);
+            // validate bases
+            if (base < 2 || base > 10 || outputBase < 2 || outputBase > 10) {
+                System.out.println("Error: Invalid base, Bases must be between 2 and 10");
+                return; // end the program due to invalid base
+            }
 
-        // perform the arithmetic operation
-        int num1Base10 = convertToBase10(num1, base);
-        int num2Base10 = convertToBase10(num2, base);
-        int resultBase10 = performOperation(num1Base10, num2Base10, operator);
+            // perform the arithmetic operation
+            int num1Base10 = convertToBase10(num1, base);
+            int num2Base10 = convertToBase10(num2, base);
+            int resultBase10 = performOperation(num1Base10, num2Base10, operator);
 
-        // display the result
-        if (resultBase10 != 0) {
-            displayResult(num1, base, operator, num2, outputBase, resultBase10);
+            // display the result
+            if (resultBase10 != 0) {
+                displayResult(num1, base, operator, num2, outputBase, resultBase10);
+            }
+
+            System.out.println("Do you want to perform another calculation? (yes/no): ");
+            String answer = In.getString();
+
+            if (!answer.equals("yes")) {
+                System.out.println("Exiting...");
+                break; // exit the loop
+            }
         }
     }
 }
