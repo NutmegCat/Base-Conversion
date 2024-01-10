@@ -3,10 +3,10 @@
 class BaseConverter {
 
     // method to check if the given number is valid for the specified base
-    static boolean isValidNumber(int num, int base) {
+    static boolean isValidNumber(double num, double base) {
         // iterate through each digit of the number
         while (num > 0) {
-            int digit = num % 10;
+            double digit = num % 10;
             // check if the digit is greater than or equal to the specified base
             if (digit >= base) {
                 return false; // invalid digit for the given base
@@ -17,13 +17,13 @@ class BaseConverter {
     }
 
     // method to convert a number from a specified base to base 10
-    static int convertToBase10(int num, int base) {
-        int result = 0;
-        int multiplier = 1;
+    static double convertToBase10(double num, double base) {
+        double result = 0;
+        double multiplier = 1;
 
         // iterate through each digit of the number
         while (num > 0) {
-            int digit = num % 10;
+            double digit = num % 10;
             // convert the digit to base 10 and accumulate the result
             result += digit * multiplier;
             multiplier *= base;
@@ -34,17 +34,17 @@ class BaseConverter {
     }
 
     // method to convert a number from base 10 to a specified base
-    static String convertToBase(int num, int base) {
+    static String convertToBase(double num, double outputBase) {
         String result = "";
 
         // iterate until the number is greater than 0
         while (num > 0) {
             // extract the remainder when dividing by the specified base
-            int digit = num % base;
+            double digit = num % outputBase;
             // prepend the digit to the result string
             result = digit + result;
             // update the number by dividing it by the specified base
-            num /= base;
+            num /= outputBase;
         }
 
         // if the result is empty, return "0" to represent the base 10 zero
@@ -56,8 +56,8 @@ class BaseConverter {
     }
 
     // method to perform the arithmetic operation based on the operator
-    static int performOperation(int num1, int num2, char operator) {
-        int result = 0;
+    static double performOperation(double num1, double num2, char operator) {
+        double result = 0;
         // perform the specified arithmetic operation
         if (operator == '+')
             result = num1 + num2;
@@ -89,7 +89,7 @@ class BaseConverter {
     }
 
     // method to display the result of the arithmetic operation
-    static void displayResult(int num1, int base, char operator, int num2, int outputBase, int result) {
+    static void displayResult(double num1, double base, char operator, double num2, double outputBase, double result) {
         System.out.println();
         System.out.println("performing calculation...");
         System.out.println();
@@ -112,7 +112,7 @@ class BaseConverter {
     // main method to execute the program
     public static void main(String[] args) {
         while (true) { // loop to keep asking for input
-            int num1, num2, base, outputBase;
+            double num1, num2, base, outputBase;
             char operator;
 
             System.out.println("Enter input base (2 to 10), first number, operator, second number, output base (2 to 10), separated by spaces.");
@@ -143,9 +143,9 @@ class BaseConverter {
             }
 
             // perform the arithmetic operation
-            int num1Base10 = convertToBase10(num1, base);
-            int num2Base10 = convertToBase10(num2, base);
-            int resultBase10 = performOperation(num1Base10, num2Base10, operator);
+            double num1Base10 = convertToBase10(num1, base);
+            double num2Base10 = convertToBase10(num2, base);
+            double resultBase10 = performOperation(num1Base10, num2Base10, operator);
 
             // display the result
             if (resultBase10 != 0) {
