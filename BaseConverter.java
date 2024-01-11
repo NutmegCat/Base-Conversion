@@ -1,7 +1,6 @@
 // Aaron Prince Anu
 
 class BaseConverter {
-
     // method to check if the given number is valid for the specified base
     static boolean isValidNumber(int num, int base) {
         // iterate through each digit of the number
